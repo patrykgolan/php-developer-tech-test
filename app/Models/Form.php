@@ -16,16 +16,24 @@ private string $address_line_3 = '';
 private string $address_line_4 = '';
 private string $town = '';
 private string $county = '';
-private string $postcode = '';
+public string $postcode = '';
 private int $bedrooms;
 private string $property_value = '';
 private string $type;
 private string $additional_information = '';
-public function rules(): array
+
+public function __construct(string $postcode, int | string $bedrooms, string $type)
+{
+    $this->postcode = $postcode;
+    $this->bedrooms = $bedrooms;
+    $this->type = $type;
+
+}
+
+    public function rules(): array
 {
     return [
 
-        'email' => [self::RULE_EMAIL],
         'postcode' => [self::RULE_REQUIRED],
         'bedrooms' => [self::RULE_REQUIRED],
         'type' => [self::RULE_REQUIRED]
