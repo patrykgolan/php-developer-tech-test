@@ -11,16 +11,13 @@ abstract class Model
     public const RULE_MIN = 'min';
     public const RULE_MAX = 'max';
 
-    public const RULE_MATCH = 'match';
-    public const RULE_UNIQUE = 'unique';
 
     public array $errors = [];
 
     abstract public function rules(): array;
 
 
-
-    public function validate($mode = ''): bool
+    public function validate(): bool
     {
 
         foreach ($this->rules() as $attribute => $rules){

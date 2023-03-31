@@ -13,7 +13,7 @@ abstract class Controller
      * @param string $view
      * @param array $params
      */
-    protected function render(string $view, array $params = [])
+    protected function render(string $view, array $params = []): void
     {
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../../resources/views');
         $twig = new \Twig\Environment($loader);
@@ -33,7 +33,7 @@ abstract class Controller
             }
 
         } else {
-            // samitize usign htmlentities
+            // sanitize using htmlentities
             $result = htmlentities(trim($input), ENT_QUOTES, 'UTF-8');
         }
 
