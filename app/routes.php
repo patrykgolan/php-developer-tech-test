@@ -6,5 +6,12 @@ return [
             'type'      => 'GET',
             'handler'   => 'FormController@index',   
         ],       
-    ]
+    ],
+    '/form' => [
+        [
+            'type'      => 'POST',
+            'handler'   => 'FormController@submit',
+        ],
+    ],
+
 ];
