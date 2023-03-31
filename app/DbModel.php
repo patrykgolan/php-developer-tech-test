@@ -19,5 +19,49 @@ namespace App;
 
      public static abstract function primaryKey(): string;
 
+     // Each where should look like this
+     //      [
+     //         'column' => '',
+     //         'operator' => '',
+     //         'value' => '',
+     //     ];
+     public function findAllWhere($where)
+     {
+         $tableName = static::tableName();
+         $attributes = array_map(fn($condition) => "$condition->argument = :$condition->argument ", $where);
+         // create array where with values for example ':colum = :colum' or 'column LIKE :column'
+
+         $attributes = array_map(function ($condition){
+             $column = $condition['column'];
+             $operator = $condition['operator'];
+
+             return $column.' '.$operator.' :'.$column;
+         }, $where);
+
+
+         $sql = implode(" AND ", $attributes);
+
+         $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
+
+         foreach ($where as $condition){
+             $column = $condition['column'];
+             $value = $condition['value'];
+
+             if(is_int($value)){
+
+                 $statement->bindValue(":$column", $value, PDO::PARAM_INT);
+
+             } else {
+
+                 $statement->bindValue(":$column", $value);
+
+             }
+         }
+
+         $statement->execute();
+
+         return $statement->fetchAll();
+
+     }
 
 }
