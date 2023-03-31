@@ -13,10 +13,14 @@ class FormController extends Controller
 
     public function submit()
     {
-        $matcher = new CompanyMatcher($this->db());
-
+        $request = $this->sanitize($_REQUEST);
+        $matcher = new CompanyMatcher();
+        $matcher->match();
+        $matchedCompanies = $matcher->results();
+        $matcher->
         $this->render('results.twig', [
             'matchedCompanies'  => $matchedCompanies,
         ]);
     }
+
 }
