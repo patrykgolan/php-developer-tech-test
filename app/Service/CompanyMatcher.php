@@ -2,15 +2,12 @@
 
 namespace App\Service;
 
-class CompanyMatcher
-{
-    private $db;
-    private $matches = [];
+use App\DbModel;
 
-    public function __construct(\PDO $db) 
-    {
-        $this->db = $db;
-    }
+class CompanyMatcher extends DbModel
+{
+
+    private array $matches = [];
 
     public function match()
     {
@@ -30,5 +27,20 @@ class CompanyMatcher
     public function deductCredits()
     {
         
+    }
+
+    public static function tableName(): string
+    {
+        // TODO: Implement tableName() method.
+    }
+
+    public static function attributes(): array
+    {
+        // TODO: Implement attributes() method.
+    }
+
+    public static function primaryKey(): string
+    {
+        // TODO: Implement primaryKey() method.
     }
 }

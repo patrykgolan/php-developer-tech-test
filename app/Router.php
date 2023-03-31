@@ -21,7 +21,7 @@ class Router
         $match = false;
 
         foreach ($this->routes[$uri] as $route) {
-            if ($route['type'] == $type) {
+            if ($route['type'] === $type) {
                 [ $controller, $method ] = explode('@', $route['handler']);
                 $controller = sprintf('App\Controller\%s', $controller);
     
