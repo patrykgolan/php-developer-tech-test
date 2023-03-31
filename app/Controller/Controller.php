@@ -20,4 +20,26 @@ abstract class Controller
 
         echo $twig->render(sprintf('layouts/%s', $view), $params);
     }
+
+    protected static function sanitize($input): array|string
+    {
+        // if the input is array loop through all elements
+        if(is_array($input)){
+
+            foreach($input as $key => $value){
+
+                $result[$key] = self::sanitize($value);
+
+            }
+
+        } else {
+            // samitize usign htmlentities
+            $result = htmlentities(trim($input), ENT_QUOTES, 'UTF-8');
+        }
+
+
+        return $result;
+    }
+
+
 }
