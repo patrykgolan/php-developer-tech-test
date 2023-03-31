@@ -6,9 +6,10 @@ class DatabaseConnection
 {
     public \PDO $pdo;
 
-    public function __construct(array $config)
+    public function __construct(array $config) //pass $_ENV super global as config
     {
-        // config from env
+
+        // config - make sure that array key correlates with env file
         $type = $config['db_type'] ?? '';
         $host = $config['db_host'] ?? '';
         $port = $config['db_port'] ?? '';
@@ -17,7 +18,13 @@ class DatabaseConnection
         $password = $config['password'] ?? '';
 
         //set dsn for pdo object
-        $dsn = $type.':host'.$host.':'.$port.';dbname='.$table;
+        $dsn = sprintf(
+            '%s:host=%s;port=%d;dbname=%s',
+            $type,
+            $host,
+            $port,
+            $table,
+        );
 
         // create new pdo connection
         $this->pdo = new \PDO($dsn, $user, $password);
@@ -30,4 +37,5 @@ class DatabaseConnection
         }
 
     }
+
 }
