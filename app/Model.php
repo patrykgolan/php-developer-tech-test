@@ -84,14 +84,10 @@ abstract class Model
     {
 
         return [
-
             self::RULE_REQUIRED => 'This field is required',
             self::RULE_EMAIL => 'This field must be valid email',
             self::RULE_MIN => 'This field must be longer then {min}',
             self::RULE_MAX => 'This field must be shorter the {max}',
-            self::RULE_MATCH => 'This field must match {match}',
-            self::RULE_UNIQUE => 'Record with this {field} already exists in database'
-
         ];
     }
 
