@@ -1,3 +1,9 @@
 /.env
 /vendor/
 /node_modules/
+/.idea/.gitignore
+/composer.lock
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/php-developer-tech-test.iml
+/.idea/vcs.xml
