@@ -10,12 +10,12 @@ class DatabaseConnection
     {
 
         // config - make sure that array key correlates with env file
-        $type = $config['db_type'] ?? '';
-        $host = $config['db_host'] ?? '';
-        $port = $config['db_port'] ?? '';
-        $table = $config['db_name'] ?? '';
-        $user = $config['user'] ?? '';
-        $password = $config['password'] ?? '';
+        $type = $config['DB_TYPE'] ?? '';
+        $host = $config['DB_HOST'] ?? '';
+        $port = $config['DB_PORT'] ?? '';
+        $table = $config['DB_NAME'] ?? '';
+        $user = $config['DB_USER'] ?? '';
+        $password = $config['DB_PASSWORD'] ?? '';
 
         //set dsn for pdo object
         $dsn = sprintf(
@@ -26,11 +26,12 @@ class DatabaseConnection
             $table,
         );
 
+
         // create new pdo connection
         $this->pdo = new \PDO($dsn, $user, $password);
 
         // throw exceptions if in dev mode
-        if($config['app_env'] === 'dev'){
+        if($config['APP_ENV'] === 'dev'){
 
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
