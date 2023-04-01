@@ -29,13 +29,15 @@ namespace App;
         $tableName = static::tableName();
 
         // preapre statement
-        $statement = $this->prepare("SELECT * FROM $tableName WHERE id = :id)");
+        $statement = $this->prepare("SELECT * FROM $tableName WHERE id = :id");
 
         // bind values
         $statement->bindValue(':id', $id, \PDO::PARAM_INT);
 
         // execute statement
         $statement->execute();
+
+        $statement->debugDumpParams();
 
         return $returnObject ? $statement->fetchObject(static::class) : $statement->fetch(\PDO::FETCH_ASSOC);
 

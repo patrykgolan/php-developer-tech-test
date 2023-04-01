@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Models\Company;
 use App\Models\CompanyMatchingSettings;
 
 class CompanyMatcher
@@ -67,17 +68,12 @@ class CompanyMatcher
         $matches = [];
 
         foreach ($this->matches as $match){
-            var_dump();
+            $matches[] = (new Company)->findWhereId($match);
         }
 
-
-        return $this->matches;
+        return $matches;
     }
 
 
-    public function deductCredits()
-    {
-        
-    }
 
 }

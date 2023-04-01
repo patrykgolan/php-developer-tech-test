@@ -8,10 +8,10 @@ class Company extends \App\DbModel
     private  int $active;
     private string $name;
     private int $credits;
-    private  int $description;
-    private int $email;
-    private int $phone;
-    private int $website;
+    private  string $description;
+    private string $email;
+    private string $phone;
+    private string $website;
     public static function tableName(): string
     {
         return 'companies';
@@ -30,5 +30,10 @@ class Company extends \App\DbModel
     public function rules(): array
     {
         return [];
+    }
+
+    public function deductCredits()
+    {
+
     }
 }
