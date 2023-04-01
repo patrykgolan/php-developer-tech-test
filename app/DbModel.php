@@ -29,7 +29,7 @@ namespace App;
      //         'operator' => '',
      //         'value' => '',
      //     ];
-     public function findAllWhere($where)
+     public  static function findAllWhere($where) : array
      {
          $tableName = static::tableName();
 
@@ -44,7 +44,7 @@ namespace App;
 
          $sql = implode(" AND ", $attributes);
 
-         $statement = $this->prepare("SELECT * FROM $tableName WHERE $sql");
+         $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
 
          foreach ($where as $condition){
              $column = $condition['column'];
