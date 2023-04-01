@@ -1,5 +1,10 @@
 
 window.onload = () => {
+    //
+    //
+    //-----SHOW MORE
+    //
+
     // more 'link'
     const moreButton = document.getElementsByClassName('matches__match__more')
 
@@ -34,4 +39,44 @@ window.onload = () => {
             nextSibling = nextSibling.nextElementSibling
         }
     }
+
+    //
+    //
+    // ----- Disabled button
+    //
+    const submitButton = document.getElementById('submit-button')
+
+    function checkIfDisableCookieExists(){
+        // get cookies
+        const cookiesDecoded = decodeURIComponent(document.cookie);
+        const cookiesArr = cookiesDecoded.split("; ");
+        cookiesArr.forEach(val =>{
+            if(val.indexOf('disable=')) return true
+        })
+
+        return false
+    }
+
+
+    function setDisableButtonCookie(){
+        // prepare 30 days expiry date
+        const now = new Date();
+        const time = now.getTime();
+        const expireTime = time + 1000*36000;
+        now.setTime(expireTime);
+
+        document.cookie = 'disable=true;expires='+now.toUTCString()
+
+    }
+
+    // set cookie if there results where shown
+    if(moreButton.length > 0 && checkIfDisableCookieExists()){
+        setDisableButtonCookie()
+    }
+
+    // disable button if cookie exists
+    if(submitButton && checkIfDisableCookieExists){
+        submitButton.disabled = true
+    }
+
 }
