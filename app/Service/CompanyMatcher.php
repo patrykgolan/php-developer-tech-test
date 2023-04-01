@@ -68,7 +68,8 @@ class CompanyMatcher
         $matches = [];
 
         foreach ($this->matches as $match){
-            $matches[] = (new Company)->findWhereId($match);
+            // ad object as array (for twig porpoise)
+            $matches[] = array ((new Company)->findWhereId($match));
         }
 
         return $matches;
