@@ -13,7 +13,7 @@ class CompanyMatcher
     {
         $where = [
             [
-                'column' => 'postcode',
+                'column' => 'postcodes',
                 'operator' => 'LIKE',
                 'value' => '%'.$postcode.'%'
             ],
@@ -23,7 +23,7 @@ class CompanyMatcher
                 'value' => '%'.$bedrooms.'%'
             ],
             [
-                'column' => 'types',
+                'column' => 'type',
                 'operator' => '=',
                 'value' => $types
             ],
@@ -38,7 +38,7 @@ class CompanyMatcher
         $count = $count ?? $_ENV['MAX_MATCHED_COMPANIES'];
 
         // get current matches count
-        $currentCount = $count($this->matches);
+        $currentCount = count($this->matches);
 
         // reduce matches if current count is higher the pick count
         if($currentCount > $count){
@@ -48,6 +48,11 @@ class CompanyMatcher
 
         }
 
+    }
+
+    public function matches()
+    {
+        return $this->matches;
     }
 
 
