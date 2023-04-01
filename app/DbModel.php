@@ -23,6 +23,24 @@ namespace App;
         return $this->db->pdo->prepare($sql);
     }
 
+    public function findWhereId($id, $returnObject = true)
+    {
+        // get model table name
+        $tableName = static::tableName();
+
+        // preapre statement
+        $statement = $this->prepare("SELECT * FROM $tableName WHERE id = :id)");
+
+        // bind values
+        $statement->bindValue(':id', $id, \PDO::PARAM_INT);
+
+        // execute statement
+        $statement->execute();
+
+        return $returnObject ? $statement->fetchObject(static::class) : $statement->fetch(\PDO::FETCH_ASSOC);
+
+    }
+
      // Each where should look like this
      //      [
      //         'column' => '',
@@ -62,8 +80,6 @@ namespace App;
          }
 
          $statement->execute();
-
-         $statement->debugDumpParams();
 
          return $statement->fetchAll();
 

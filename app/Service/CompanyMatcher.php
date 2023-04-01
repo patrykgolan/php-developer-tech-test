@@ -64,6 +64,13 @@ class CompanyMatcher
 
     public function matches()
     {
+        $matches = [];
+
+        foreach ($this->matches as $match){
+            var_dump();
+        }
+
+
         return $this->matches;
     }
 
