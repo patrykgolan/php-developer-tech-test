@@ -29,7 +29,7 @@ class CompanyMatcher
             ],
         ];
 
-        $this->matches =  CompanyMatchingSettings::findAllWhere($where);
+        $this->matches = (new CompanyMatchingSettings)->findAllWhere($where);
     }
 
     public function pick($count = null): void
