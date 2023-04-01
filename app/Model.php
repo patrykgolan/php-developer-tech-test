@@ -20,27 +20,27 @@ abstract class Model
     public function validate(): bool
     {
 
-        foreach ($this->rules() as $attribute => $rules){
+        foreach ($this->rules() as $attribute => $rules) {
 
             $value = $this->{$attribute};
 
-            foreach ($rules as $rule){
+            foreach ($rules as $rule) {
 
                 $ruleName = $rule;
 
-                if (!is_string($ruleName)){
+                if (!is_string($ruleName)) {
 
                     $ruleName = $rule[0];
 
                 }
                 // required rule
-                if ($ruleName === self::RULE_REQUIRED && !$value){
+                if ($ruleName === self::RULE_REQUIRED && !$value) {
 
                     $this->addErrorForRule($attribute, self::RULE_REQUIRED);
 
                 }
 
-                if ($ruleName === self::RULE_EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)){
+                if ($ruleName === self::RULE_EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
 
                     $this->addErrorForRule($attribute, self::RULE_EMAIL);
 
@@ -69,7 +69,7 @@ abstract class Model
 
         $message = $this->errorMessages()[$rule] ?? '';
 
-        foreach ($params as $key => $value){
+        foreach ($params as $key => $value) {
 
             $message = str_replace("{{$key}}", $value, $message);
 
@@ -91,5 +91,18 @@ abstract class Model
         ];
     }
 
+    public function __get($property)
+    {
+        if (property_exists($this, $property)) {
+            return $this->$property;
+        }
+    }
 
+    public function __set($property, $value)
+    {
+        if (property_exists($this, $property)) {
+            $this->$property = $value;
+        }
+
+    }
 }
