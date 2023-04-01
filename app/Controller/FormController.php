@@ -23,9 +23,12 @@ class FormController extends Controller
 
         $form = new Form($postcode, $bedrooms, $type);
         if($form->validate()){
-
+            $companies = new CompanyMatcher();
+            $companies->match($form->__get('postcode'), $form->__get('bedrooms'), $form->__get('type'));
+            $companies->pick();
+            $matchedCompanies = $companies->results();
             $this->render('results.twig', [
-                //'matchedCompanies'  => $matchedCompanies,
+                'matchedCompanies'  => $matchedCompanies,
             ]);
         }
 
