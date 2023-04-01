@@ -63,6 +63,8 @@ namespace App;
 
          $statement->execute();
 
+         $statement->debugDumpParams();
+
          return $statement->fetchAll();
 
      }

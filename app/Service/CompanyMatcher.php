@@ -11,11 +11,20 @@ class CompanyMatcher
 
     public function match(string $postcode, int $bedrooms, string $types) : void
     {
+        //prepare postcodes
+        $firstLetterOfPrefix = substr($postcode, 0, 1);
+        $prefix = substr($postcode, 0, 2);
+
         $where = [
             [
                 'column' => 'postcodes',
                 'operator' => 'LIKE',
-                'value' => '%'.$postcode.'%'
+                'value' => '%'.$firstLetterOfPrefix.'%'
+            ],
+            [
+                'column' => 'postcodes',
+                'operator' => 'LIKE',
+                'value' => '%'.$prefix.'%'
             ],
             [
                 'column' => 'bedrooms',
@@ -29,7 +38,10 @@ class CompanyMatcher
             ],
         ];
 
-        $this->matches = (new CompanyMatchingSettings)->findAllWhere($where);
+        $matches = (new CompanyMatchingSettings)->findAllWhere($where);
+
+        // get ids and set them as matches value
+        $this->matches = array_combine(array_column($matches, 'id'), $matches);
     }
 
     public function pick($count = null): void
