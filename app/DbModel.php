@@ -37,8 +37,6 @@ namespace App;
         // execute statement
         $statement->execute();
 
-        $statement->debugDumpParams();
-
         return $returnObject ? $statement->fetchObject(static::class) : $statement->fetch(\PDO::FETCH_ASSOC);
 
     }

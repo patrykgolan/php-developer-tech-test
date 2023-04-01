@@ -6,12 +6,12 @@ class Company extends \App\DbModel
 {
     private int $id;
     private  int $active;
-    private string $name;
+    protected string $name;
     private int $credits;
-    private  string $description;
-    private string $email;
-    private string $phone;
-    private string $website;
+    protected  string $description;
+    protected string $email;
+    protected string $phone;
+    protected string $website;
     public static function tableName(): string
     {
         return 'companies';

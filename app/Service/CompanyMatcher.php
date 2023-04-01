@@ -69,9 +69,15 @@ class CompanyMatcher
 
         foreach ($this->matches as $match){
             // ad object as array (for twig porpoise)
-            $matches[] = array ((new Company)->findWhereId($match));
+            $companyData = (new Company)->findWhereId($match);
+            $matches[] = [
+                'name' => $companyData->name,
+                'description' => $companyData->description,
+                'phone' => $companyData->phone,
+                'email' => $companyData->email,
+                'website' => $companyData->website,
+            ];
         }
-
         return $matches;
     }
 

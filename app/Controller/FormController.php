@@ -34,7 +34,6 @@ class FormController extends Controller
             // create local var
             $matchedCompanies = $companies->matches();
 
-            var_dump($matchedCompanies);
             // render view
             $this->render('results.twig', [
                 'matchedCompanies'  => $matchedCompanies,
