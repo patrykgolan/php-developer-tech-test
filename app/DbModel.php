@@ -2,7 +2,6 @@
 
 namespace App;
 
- use app\core\Application;
  use App\Database\DatabaseConnection;
 
  abstract class DbModel extends Model
@@ -19,6 +18,11 @@ namespace App;
 
      public static abstract function primaryKey(): string;
 
+    public function prepare($sql)
+    {
+        return $this->db->pdo->prepare($sql);
+    }
+
      // Each where should look like this
      //      [
      //         'column' => '',
@@ -28,9 +32,8 @@ namespace App;
      public function findAllWhere($where)
      {
          $tableName = static::tableName();
-         $attributes = array_map(fn($condition) => "$condition->argument = :$condition->argument ", $where);
-         // create array where with values for example ':colum = :colum' or 'column LIKE :column'
 
+         // create array where with values for example ':colum = :colum' or 'column LIKE :column'
          $attributes = array_map(function ($condition){
              $column = $condition['column'];
              $operator = $condition['operator'];
@@ -41,7 +44,7 @@ namespace App;
 
          $sql = implode(" AND ", $attributes);
 
-         $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
+         $statement = $this->prepare("SELECT * FROM $tableName WHERE $sql");
 
          foreach ($where as $condition){
              $column = $condition['column'];
@@ -49,7 +52,7 @@ namespace App;
 
              if(is_int($value)){
 
-                 $statement->bindValue(":$column", $value, PDO::PARAM_INT);
+                 $statement->bindValue(":$column", $value, \PDO::PARAM_INT);
 
              } else {
 
