@@ -10,3 +10,4 @@
 /.idea/laravel-idea.xml
 /.idea/symfony2.xml
 /app/logs/
+/.phpunit.result.cache
