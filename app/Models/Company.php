@@ -39,6 +39,6 @@ class Company extends \App\DbModel
 
     public function logZeroCredit()
     {
-
+        Log::credits('Company '.$this->name.' ran out off credits');
     }
 }
