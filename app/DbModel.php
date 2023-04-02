@@ -37,6 +37,7 @@ namespace App;
         // execute statement
         $statement->execute();
 
+
         return $returnObject ? $statement->fetchObject(static::class) : $statement->fetch(\PDO::FETCH_ASSOC);
 
     }
@@ -81,11 +82,12 @@ namespace App;
 
          $statement->execute();
 
+
          return $statement->fetchAll();
 
      }
 
-     public function deduct( $columnToDeduct, $value = 1)
+     public function deduct($columnToDeduct, $value = 1)
      {
 
          if($id = $this->__get('id')) {
@@ -94,13 +96,15 @@ namespace App;
              $tableName = static::tableName();
 
              // prepare statement
-             $statement = $this->prepare("SELECT * FROM $tableName WHERE id = :id UPDATE $columnToDeduct = $columnToDeduct - :$columnToDeduct");
+             $statement = $this->prepare("UPDATE $tableName SET $columnToDeduct = $columnToDeduct - :$columnToDeduct WHERE id = :id" );
 
              // bind values
-             $statement->bindValue(':id', $id, \PDO::PARAM_INT);
+             $statement->bindValue(":id", $id, \PDO::PARAM_INT);
              $statement->bindValue(":$columnToDeduct", $value, \PDO::PARAM_INT);
 
+
              return $statement->execute();
+
          }
 
          return false;

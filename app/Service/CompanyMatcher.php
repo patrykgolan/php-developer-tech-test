@@ -13,16 +13,9 @@ class CompanyMatcher
     public function match(string $postcode, int $bedrooms, string $types) : void
     {
         //prepare postcodes
-
         $prefix = substr($postcode, 0, 2);
 
         $where = [
-            // only companies with credits
-            [
-                'column' => 'credits',
-                'operator' => '>',
-                'value' => 0,
-            ],
             [
                 'column' => 'postcodes',
                 'operator' => 'LIKE',
@@ -31,7 +24,7 @@ class CompanyMatcher
             [
                 'column' => 'bedrooms',
                 'operator' => 'LIKE',
-                'value' => '%'.$bedrooms.'%'
+                'value' => '%"'.$bedrooms.'"%' // add "" as column is a array saved as string
             ],
             [
                 'column' => 'type',
@@ -40,10 +33,24 @@ class CompanyMatcher
             ],
         ];
 
+        // get matches
         $matches = (new CompanyMatchingSettings)->findAllWhere($where);
 
-        // get ids and set them as matches value
-        $this->matches = array_combine(array_column($matches, 'id'), $matches);
+        // get company details for all matches
+        foreach ($matches as $match){
+            $id = $match['id'];
+            // ad object as array for view
+            $companyData = (new Company)->findWhereId($id);
+            // only add active companies and with credit
+            if($companyData->credits > 0 && $companyData->active){
+
+                //add
+                array_push($this->matches, $companyData);
+            }
+            // just an idea here to add elseif statement for companies with 0 credit
+            // method sending an email to company telling them about missed opportunity and remind about topping up the credit
+        }
+
     }
 
     public function pick($count = null): void
@@ -56,31 +63,42 @@ class CompanyMatcher
 
         // reduce matches if current count is higher the pick count
         if($currentCount > $count){
-
-            // get random elements
-            $this->matches = array_rand($this->matches, $count);
-
+            // shuffle and reduce array
+            shuffle($this->matches);
+            $this->matches = array_slice($this->matches, 0, $count);
         }
+
 
     }
 
     public function matches()
     {
         $matches = [];
+        // deduct credit if was shown in result
 
+        /**
+         * @param Company $match
+         */
         foreach ($this->matches as $match){
-
-            // ad object as array for view
-            $companyData = (new Company)->findWhereId($match);
+            // add to view array
             $matches[] = [
-                'name' => $companyData->name,
-                'description' => $companyData->description,
-                'phone' => $companyData->phone,
-                'email' => $companyData->email,
-                'website' => $companyData->website,
+                'credits' => $match->credits,
+                'name' => $match->name,
+                'description' => $match->description,
+                'phone' => $match->phone,
+                'email' => $match->email,
+                'website' => $match->website,
             ];
 
-            $match->deduct('credits');
+            // deduct credits
+            $match->deductCredits();
+
+            // log if the credit was one (after deduction will be 0)
+            if($match->credit === 1){
+
+                $match->logZeroCredit();
+
+            }
         }
         return $matches;
     }

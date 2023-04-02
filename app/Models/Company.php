@@ -4,10 +4,10 @@ namespace App\Models;
 
 class Company extends \App\DbModel
 {
-    private int $id;
-    private  int $active;
+    protected int $id;
+    protected  int $active;
     protected string $name;
-    private int $credits;
+    protected int $credits;
     protected  string $description;
     protected string $email;
     protected string $phone;
@@ -33,6 +33,11 @@ class Company extends \App\DbModel
     }
 
     public function deductCredits()
+    {
+        $this->deduct('credits');
+    }
+
+    public function logZeroCredit()
     {
 
     }
