@@ -13,19 +13,20 @@ class CompanyMatcher
     public function match(string $postcode, int $bedrooms, string $types) : void
     {
         //prepare postcodes
-        $firstLetterOfPrefix = substr($postcode, 0, 1);
+
         $prefix = substr($postcode, 0, 2);
 
         $where = [
+            // only companies with credits
             [
-                'column' => 'postcodes',
-                'operator' => 'LIKE',
-                'value' => '%'.$firstLetterOfPrefix.'%'
+                'column' => 'credits',
+                'operator' => '>',
+                'value' => 0,
             ],
             [
                 'column' => 'postcodes',
                 'operator' => 'LIKE',
-                'value' => '%'.$prefix.'%'
+                'value' => '%"'.$prefix.'"%' // add "" as column is a array saved as string
             ],
             [
                 'column' => 'bedrooms',
@@ -68,7 +69,8 @@ class CompanyMatcher
         $matches = [];
 
         foreach ($this->matches as $match){
-            // ad object as array (for twig porpoise)
+
+            // ad object as array for view
             $companyData = (new Company)->findWhereId($match);
             $matches[] = [
                 'name' => $companyData->name,
@@ -77,6 +79,8 @@ class CompanyMatcher
                 'email' => $companyData->email,
                 'website' => $companyData->website,
             ];
+
+            $match->deduct('credits');
         }
         return $matches;
     }

@@ -85,19 +85,26 @@ namespace App;
 
      }
 
-     public function deduct($id, $columnToDeduct, $value = 1)
+     public function deduct( $columnToDeduct, $value = 1)
      {
-         // get model table name
-         $tableName = static::tableName();
 
-         // prepare statement
-         $statement = $this->prepare("SELECT * FROM $tableName WHERE id = :id UPDATE $columnToDeduct = $columnToDeduct - :$columnToDeduct");
+         if($id = $this->__get('id')) {
 
-         // bind values
-         $statement->bindValue(':id', $id, \PDO::PARAM_INT);
-         $statement->bindValue(":$columnToDeduct", $value, \PDO::PARAM_INT);
+             // get model table name
+             $tableName = static::tableName();
 
-          return $statement->execute();
+             // prepare statement
+             $statement = $this->prepare("SELECT * FROM $tableName WHERE id = :id UPDATE $columnToDeduct = $columnToDeduct - :$columnToDeduct");
+
+             // bind values
+             $statement->bindValue(':id', $id, \PDO::PARAM_INT);
+             $statement->bindValue(":$columnToDeduct", $value, \PDO::PARAM_INT);
+
+             return $statement->execute();
+         }
+
+         return false;
+
      }
 
 }
