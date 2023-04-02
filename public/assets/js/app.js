@@ -62,7 +62,6 @@ window.onload = (event) => {
         document.cookie = name + '=' + value + ';expires=' + now.toUTCString()
 
     }
-    console.log(submitButton)
     // disable button if cookie exists
     if (submitButton && checkIfCookieExists('disable')) {
         submitButton.disabled = true
