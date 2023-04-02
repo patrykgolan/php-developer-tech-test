@@ -92,7 +92,6 @@ class CompanyMatcher
 
             // deduct credits
             $match->deductCredits();
-            $match->logZeroCredit();
             // log if the credit was one (after deduction will be 0)
             if($match->credit === 1){
 
