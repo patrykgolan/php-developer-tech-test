@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Service;
 
-use App\Model;
+use App\Models\Model;
 
 class Form extends Model
 {

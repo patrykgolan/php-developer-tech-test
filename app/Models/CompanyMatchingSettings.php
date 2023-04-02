@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\DbModel;
-
 class CompanyMatchingSettings extends DbModel
 {
     protected int $company_id;

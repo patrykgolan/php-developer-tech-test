@@ -1,7 +1,7 @@
 <?php
 // class created for general db queries
 
-namespace App;
+namespace App\Models;
 
  use App\Database\DatabaseConnection;
 

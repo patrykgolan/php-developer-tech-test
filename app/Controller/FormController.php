@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Models\Form;
 use App\Service\CompanyMatcher;
+use App\Service\Form;
 
 class FormController extends Controller
 {

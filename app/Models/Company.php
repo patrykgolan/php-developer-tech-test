@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Company extends \App\DbModel
+class Company extends \App\Models\DbModel
 {
     protected int $id;
     protected  int $active;
