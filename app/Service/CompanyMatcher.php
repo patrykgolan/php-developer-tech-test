@@ -39,13 +39,16 @@ class CompanyMatcher
         // get company details for all matches
         foreach ($matches as $match){
             $id = $match['id'];
-            // ad object as array for view
-            $companyData = (new Company)->findWhereId($id);
-            // only add active companies and with credit
-            if($companyData->credits > 0 && $companyData->active){
 
-                //add
-                array_push($this->matches, $companyData);
+            // ad object as array for view, but check first if there's corresponding data with id
+            // db is missing some data - there's 25 records in company_matching_settings but just 10 in companies
+            if($companyData = (new Company)->findWhereId($id)){
+                // only add active companies and with credit
+                if($companyData->credits > 0 && $companyData->active){
+
+                    //add
+                    array_push($this->matches, $companyData);
+                }
             }
             // just an idea here to add elseif statement for companies with 0 credit
             // method sending an email to company telling them about missed opportunity and remind about topping up the credit
