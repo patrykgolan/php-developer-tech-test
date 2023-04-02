@@ -2,9 +2,11 @@
 
 namespace App\Database;
 
+use PDO;
+
 class DatabaseConnection
 {
-    public \PDO $pdo;
+    public PDO $pdo;
 
     public function __construct(array $config) //pass $_ENV super global as config
     {
@@ -28,12 +30,12 @@ class DatabaseConnection
 
 
         // create new pdo connection
-        $this->pdo = new \PDO($dsn, $user, $password);
+        $this->pdo = new PDO($dsn, $user, $password);
 
         // throw exceptions if in dev mode
         if($config['APP_ENV'] === 'dev'){
 
-            $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         }
 
