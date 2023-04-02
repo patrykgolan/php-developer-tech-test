@@ -50,6 +50,7 @@ window.onload = () => {
         // get cookies
         const cookiesDecoded = decodeURIComponent(document.cookie);
         const cookiesArr = cookiesDecoded.split("; ");
+
         cookiesArr.forEach(val =>{
             if(val.indexOf('disable=')) return true
         })
@@ -75,7 +76,7 @@ window.onload = () => {
     }
 
     // disable button if cookie exists
-    if(submitButton && checkIfDisableCookieExists){
+    if(submitButton && checkIfDisableCookieExists()){
         submitButton.disabled = true
     }
 
