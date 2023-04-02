@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Database\DatabaseConnection;
-
 abstract class Controller
 {
 
@@ -21,6 +19,7 @@ abstract class Controller
         echo $twig->render(sprintf('layouts/%s', $view), $params);
     }
 
+    // sanitize post inputs
     protected static function sanitize($input): array|string
     {
         // if the input is array loop through all elements

@@ -14,6 +14,7 @@ class FormController extends Controller
 
     public function submit()
     {
+        // sanitize post request
         $request = $this->sanitize($_REQUEST);
 
         // get data - rest of the data is omitted as is not necessary at this stage
@@ -21,7 +22,10 @@ class FormController extends Controller
         $bedrooms = $request['bedrooms'];
         $type = $request['type'];
 
+        // create form object
         $form = new Form($postcode, $bedrooms, $type);
+
+        // validate form
         if($form->validate()){
 
             // match companies
@@ -35,9 +39,12 @@ class FormController extends Controller
             $matchedCompanies = $companies->matches();
 
             // render view
+            // for future reference would be good to show some error alerts if data won't pass backend validation
             $this->render('results.twig', [
                 'matchedCompanies'  => $matchedCompanies,
             ]);
+
+
         }
 
     }

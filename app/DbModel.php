@@ -1,4 +1,5 @@
 <?php
+// class created for general db queries
 
 namespace App;
 
@@ -18,7 +19,7 @@ namespace App;
 
      public static abstract function primaryKey(): string;
 
-    public function prepare($sql)
+    public function prepare($sql): bool|\PDOStatement
     {
         return $this->db->pdo->prepare($sql);
     }
@@ -37,7 +38,7 @@ namespace App;
         // execute statement
         $statement->execute();
 
-
+        // return object or assoc array
         return $returnObject ? $statement->fetchObject(static::class) : $statement->fetch(\PDO::FETCH_ASSOC);
 
     }
@@ -48,7 +49,7 @@ namespace App;
      //         'operator' => '',
      //         'value' => '',
      //     ];
-     public function findAllWhere($where) : array
+     public function findAllWhere($where) : array // method is not ready for null values!!!
      {
          $tableName = static::tableName();
 
@@ -65,11 +66,13 @@ namespace App;
 
          $statement = $this->prepare("SELECT * FROM $tableName WHERE $sql");
 
+         // bind values
          foreach ($where as $condition){
+
              $column = $condition['column'];
              $value = $condition['value'];
 
-             if(is_int($value)){
+             if(is_int($value)){ // integer values
 
                  $statement->bindValue(":$column", $value, \PDO::PARAM_INT);
 
@@ -78,8 +81,11 @@ namespace App;
                  $statement->bindValue(":$column", $value);
 
              }
+
+             // method is not ready for null values
          }
 
+         // execute
          $statement->execute();
 
 
@@ -89,7 +95,7 @@ namespace App;
 
      public function deduct($columnToDeduct, $value = 1)
      {
-
+        // get id
          if($id = $this->__get('id')) {
 
              // get model table name

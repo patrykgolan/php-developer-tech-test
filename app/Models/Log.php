@@ -5,7 +5,7 @@ namespace App\Models;
 
 class Log
 {
-    private const LOG_DIR = __DIR__ . '/../logs/';
+    private const LOG_DIR = __DIR__ . '/../logs/'; // directory
     private const LOG_TYPES = [
         1 => [
             'type' => 'credits',
@@ -19,6 +19,7 @@ class Log
 
     public static function credits($message): void
     {
+        // create new instance
         $log = new self();
         $log->type = self::LOG_TYPES[1];
         $log->text = $message;
@@ -27,7 +28,9 @@ class Log
 
     private function save(): void
     {
+        // get file name based on type
         $fileName = $this->type['fileName'];
+        // directory
         $dir = self::LOG_DIR.$fileName;
 
         // check if logs exists, if not creat file
@@ -35,6 +38,7 @@ class Log
             mkdir($dir, 0777, true);
         }
 
+        // message with date
         $message = date("d-m-Y H:i:s").PHP_EOL.
             $this->text.PHP_EOL
             ."-------------------------".PHP_EOL;
