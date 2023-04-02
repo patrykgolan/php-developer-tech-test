@@ -23,8 +23,6 @@ CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_general_ci
 ENGINE = InnoDB
 AUTO_INCREMENT = 31;
--- -------------------------------------------------------------
-
 
 -- CREATE TABLE "companies" ------------------------------------
 CREATE TABLE `companies`( 
@@ -43,6 +41,9 @@ COLLATE = utf8mb4_general_ci
 ENGINE = InnoDB
 AUTO_INCREMENT = 11;
 -- -------------------------------------------------------------
+-- Change credits to int
+-- -------------------------------------------------------------
+ALTER TABLE `companies` CHANGE `credits` `credits` INT(255) NOT NULL DEFAULT '0';
 
 
 -- Dump data of "company_matching_settings" ----------------
