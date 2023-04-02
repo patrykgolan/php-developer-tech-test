@@ -8,9 +8,7 @@ class Form extends Model
 {
 protected string $postcode = '';
 protected int $bedrooms;
-private string $property_value = '';
 protected string $type;
-private string $additional_information = '';
 
 public function __construct(string $postcode, int | string $bedrooms, string $type)
 {

@@ -30,13 +30,6 @@ window.onload = (event) => {
 
     }
 
-    // onClick event for moreButton
-    function moreOnClick(index) {
-        // get next sibling
-        const nextSibling = moreButton[index].nextElementSibling
-            // if next sibling is match__match__details show more
-
-        }
 
     //
     //
@@ -70,6 +63,7 @@ window.onload = (event) => {
 
     // set cookie if there results where shown
     if (moreButton.length > 0 && checkIfDisableCookieExists()) {
+        console.log('test')
         setDisableButtonCookie()
     }
 
