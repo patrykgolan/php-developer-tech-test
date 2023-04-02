@@ -13,13 +13,13 @@ window.onload = (event) => {
             // get next sibling
             const nextSibling = moreButton[i].nextElementSibling
             // show more
-            if (nextSibling.classList.contains('match__match__details')) showMoreORless(nextSibling, moreButton[i])
+            if (nextSibling.classList.contains('match__match__details')) showMoreOrLess(nextSibling, moreButton[i])
 
         });
     }
 
     // change display value
-    function showMoreORless(container, button) {
+    function showMoreOrLess(container, button) {
         if(container.style.display === 'none'){
             container.style.display = "flex";
             button.innerHTML = 'less'
@@ -37,38 +37,40 @@ window.onload = (event) => {
     //
     const submitButton = document.getElementById('submit-button')
 
-    function checkIfDisableCookieExists() {
+    function checkIfCookieExists(name) {
         // get cookies
         const cookiesDecoded = decodeURIComponent(document.cookie);
         const cookiesArr = cookiesDecoded.split("; ");
-
-        cookiesArr.forEach(val => {
-            if (val.indexOf('disable=')) return true
-        })
+        for(let i = 0; i < cookiesArr.length; i++){
+            const cookiePair = cookiesArr[i].split("=");
+            if (cookiePair[0] === name) {
+                return true
+            }
+        }
 
         return false
     }
 
 
-    function setDisableButtonCookie() {
+    function setCookie(name,value) {
         // prepare 30 days expiry date
         const now = new Date();
         const time = now.getTime();
         const expireTime = time + 1000 * 36000;
         now.setTime(expireTime);
 
-        document.cookie = 'disable=true;expires=' + now.toUTCString()
+        document.cookie = name + '=' + value + ';expires=' + now.toUTCString()
 
+    }
+    console.log(submitButton)
+    // disable button if cookie exists
+    if (submitButton && checkIfCookieExists('disable')) {
+        submitButton.disabled = true
     }
 
     // set cookie if there results where shown
-    if (moreButton.length > 0 && checkIfDisableCookieExists()) {
-        console.log('test')
-        setDisableButtonCookie()
+    if (moreButton.length > 0 && !checkIfCookieExists('disable')) {
+        setCookie('disable', true)
     }
 
-    // disable button if cookie exists
-    if (submitButton && checkIfDisableCookieExists()) {
-        submitButton.disabled = true
-    }
 }
